@@ -1,5 +1,6 @@
-import { Generation } from "~/Generation";
-import { Theme } from "~/Theme";
+import React, { useCallback, useMemo } from 'react';
+import { Generation } from '~/Generation';
+import { Theme } from '~/Theme';
 
 export function Button({
   id,
@@ -12,7 +13,6 @@ export function Button({
   ...props
 }: Button.Props) {
   const isEnabled = Generation.Image.Create.useIsEnabled();
-
   const { input } = Generation.Image.Input.use(id);
 
   const onClick = useCallback(
@@ -23,6 +23,10 @@ export function Button({
     [onIdleClick, originalOnClick]
   );
 
+  const handleFeedbackClick = () => {
+    window.location.href = 'https://forms.gle/iDJZPHRG9nN4LvHs7';
+  };
+
   const validated = useMemo(
     () => input && Generation.Image.Model.StableDiffusionV1.validate(input),
     [input]
@@ -30,16 +34,30 @@ export function Button({
 
   if (!input) return null;
   return (
-    <Theme.Button
-      size="lg"
-      color={noBrand ? "zinc" : "brand"}
-      icon={Theme.Icon.Dream}
-      disabled={disabled || !isEnabled || !validated}
-      onClick={onClick}
-      {...props}
-    >
-      {children ?? (!noTitle && <>Dream</>)}
-    </Theme.Button>
+    <>
+      <Theme.Button
+        size="lg"
+        color={noBrand ? 'zinc' : 'brand'}
+        icon={Theme.Icon.Dream}
+        disabled={disabled || !isEnabled || !validated}
+        onClick={onClick}
+        {...props}
+      >
+        {children ?? (!noTitle && <>Imagine</>)}
+      </Theme.Button>
+<br></br>
+      {/* Feedback Button */}
+      <Theme.Button
+        size="lg"
+        color={noBrand ? 'zinc' : 'brand'}
+        icon={Theme.Icon.Feedback}
+        disabled={disabled || !isEnabled || !validated}
+        onClick={handleFeedbackClick}
+        {...props}
+      >
+        Provide Feedback
+      </Theme.Button>
+    </>
   );
 }
 

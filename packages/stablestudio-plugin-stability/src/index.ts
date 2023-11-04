@@ -11,7 +11,7 @@ import {
   Struct,
 } from "./Proto";
 
-const getStableDiffusionDefaultCount = () => 4;
+const getStableDiffusionDefaultCount = () => 2;
 const getStableDiffusionDefaultInputFromPrompt = (prompt: string) => ({
   prompts: [
     {
@@ -239,6 +239,7 @@ export const createPlugin = StableStudio.createPlugin<{
           ],
         });
 
+
         let id: string | undefined;
         const images: StableStudio.StableDiffusionImage[] = [];
 
@@ -384,7 +385,6 @@ export const createPlugin = StableStudio.createPlugin<{
             input,
             blob: fetch(src).then((response) => response.blob()),
           };
-
           return {
             ...previous,
             [id]: {
@@ -543,18 +543,16 @@ export const createPlugin = StableStudio.createPlugin<{
     settings: {
       apiKey: {
         type: "string",
-
         title: "API key",
         description:
-          "You can find your Stability API key at https://dreamstudio.ai/account",
-
+          " ",
         placeholder: "sk-...",
         required: true,
-        password: true,
-
+        password: false,
         value: localStorage.getItem("stability-apiKey") ?? "",
       },
     },
+
 
     setSetting: (key, value) => {
       set(({ settings }) => ({
@@ -571,13 +569,9 @@ export const createPlugin = StableStudio.createPlugin<{
     },
 
     manifest: {
-      author: "Stability AI",
       description: markdownDescription,
-      name: "Stability AI",
-      license: "MIT",
-      link: "https://stability.ai",
-      version: "0.0.0",
-      icon: "https://stability.ai/favicon.ico",
+      name: "🖥️ Ai is ",
+      link: "https://stability.ai"
     },
   };
 });
@@ -607,28 +601,5 @@ function parseExtras(extras: any): any | undefined {
 }
 
 const markdownDescription = `
-# Welcome to StableStudio!
 
-## [📖 README](https://github.com/Stability-AI/StableStudio) · [🎮 Discord](https://discord.com/channels/1002292111942635562/1108055793674227782) · [🌈 DreamStudio](https://dreamstudio.ai) · [💬 Discussion](https://github.com/Stability-AI/StableStudio/discussions)
-
-# Setup
-
-To get started, you'll need to sign up for a [DreamStudio](https://dreamstudio.ai) account.
-
-Once you're logged in, head to the [account page](https://dreamstudio.ai/account).
-
-You should see a section called \`API keys\`...
-![](/media/api_keys_screenshot.png)
-
-If you don't already have a key, you can create one via the plus button...
-![](/media/create_api_key_screenshot.png)
-
-You can copy your API key by clicking the copy button...
-![](/media/copy_api_key_screenshot.png)
-
-You'll be asked to accept the terms of service.
-
-Now, paste the key into the field below...
-
-The plugin status should change to \`Ready\` once everything is working.
 ` as const;

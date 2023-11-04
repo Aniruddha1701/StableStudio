@@ -1,13 +1,10 @@
+import React, { useState, useEffect, useMemo } from "react";
 import { PluginStatus } from "@stability/stablestudio-plugin";
 import { Link } from "react-router-dom";
-
 import { GlobalState } from "~/GlobalState";
 import { Plugin } from "~/Plugin";
 import { Theme } from "~/Theme";
-
-import { Install } from "./Install";
 import { Manifest } from "./Manifest";
-import { Setting } from "./Setting";
 
 export function Settings() {
   const [pluginStatus, setPluginStatus] = useState<PluginStatus | undefined>();
@@ -35,7 +32,9 @@ export function Settings() {
             ...previous,
             indicator: "loading",
           }));
-          status.then(setPluginStatus);
+          status.then((data) => {
+            setPluginStatus(data);
+          });
         } else {
           setPluginStatus(status);
           console.log(status);
@@ -57,48 +56,39 @@ export function Settings() {
     [settings]
   );
 
-  return (
-    <>
-      <div className="h-full justify-between overflow-y-auto bg-zinc-900 px-5 py-6">
-        <div className="mx-auto flex max-w-[60rem] flex-col gap-5">
-          {!isMissingRequiredSetting && (
-            <Link to="/generate" className="w-fit">
-              <div className="my-5 -ml-1 flex gap-1 text-lg opacity-50 hover:opacity-100">
-                <Theme.Icon.ChevronLeft className="h-6 w-6" />
-                Generate
-              </div>
-            </Link>
-          )}
-          <div>
-            <h1 className="text-3xl">Settings</h1>
-          </div>
-          <Manifest
-            manifest={manifest}
-            pluginStatus={pluginStatus}
-            settings={settings ?? {}}
-            setSetting={setSetting as never}
-          />
-          <Setting
-            settingKey="developerMode"
-            setSetting={() => setDeveloperMode(!developerMode)}
-            settingValue={{
-              type: "boolean",
-              title: "Developer mode",
-              description:
-                "Enable experimental features such as installing untrusted plugins",
+  const copyApiKeyToClipboard = () => {
+    // Implement the logic to copy API key to clipboard
+    // For example, you can use document.execCommand('copy') or Clipboard API
+  };
 
-              required: false,
-              value: developerMode,
-            }}
-          />
-          {developerMode && (
-            <Install
-              installPlugin={(url) => url && pluginSetup.loadFromURL(url)}
-            />
-          )}
+  const copied = false; // You need to implement the copied state logic based on the copy operation result
+
+  return (
+    <div className="h-full flex flex-col items-center justify-center bg-zinc-900 px-5 py-6">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-white">Settings</h1>
+      </div>
+      <div className="w-full max-w-[60rem]">
+        <Manifest
+          manifest={manifest}
+          pluginStatus={pluginStatus}
+          settings={settings ?? {}}
+          setSetting={setSetting as never}
+        />
+        <div className="flex flex-col items-center mt-8">
+          <button onClick={copyApiKeyToClipboard} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {copied ? "Copied!" : "Copy API Key"}
+          </button>
+          <Link to="/generate" className="mt-4 w-fit">
+            <br />
+            <div className="flex items-center justify-center gap-2 text-lg text-white opacity-100 hover:opacity-80">
+              <Theme.Icon.ArtStation className="h-6 w-6 fill-current" />
+              Generate
+            </div>
+          </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
