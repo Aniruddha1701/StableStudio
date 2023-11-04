@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
-import { Generation } from '~/Generation';
-import { Theme } from '~/Theme';
+import React, { useCallback, useMemo } from "react";
+import { Generation } from "~/Generation";
+import { Theme } from "~/Theme";
 
 export function Button({
   id,
@@ -24,7 +24,7 @@ export function Button({
   );
 
   const handleFeedbackClick = () => {
-    window.location.href = 'https://forms.gle/iDJZPHRG9nN4LvHs7';
+    window.location.href = "https://forms.gle/iDJZPHRG9nN4LvHs7";
   };
 
   const validated = useMemo(
@@ -37,7 +37,7 @@ export function Button({
     <>
       <Theme.Button
         size="lg"
-        color={noBrand ? 'zinc' : 'brand'}
+        color={noBrand ? "zinc" : "brand"}
         icon={Theme.Icon.Dream}
         disabled={disabled || !isEnabled || !validated}
         onClick={onClick}
@@ -45,17 +45,16 @@ export function Button({
       >
         {children ?? (!noTitle && <>Imagine</>)}
       </Theme.Button>
-<br></br>
-      {/* Feedback Button */}
+      <br></br>
       <Theme.Button
         size="lg"
-        color={noBrand ? 'zinc' : 'brand'}
-        icon={Theme.Icon.Feedback}
+        color={noBrand ? "zinc" : "brand"}
+        icon={Theme.Icon.Upload}
         disabled={disabled || !isEnabled || !validated}
         onClick={handleFeedbackClick}
         {...props}
       >
-        Provide Feedback
+        Feedback
       </Theme.Button>
     </>
   );
