@@ -20,6 +20,7 @@ export function Settings() {
   );
 
   const { developerMode, setDeveloperMode } = Settings.use();
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     function fetchStatus() {
@@ -57,11 +58,23 @@ export function Settings() {
   );
 
   const copyApiKeyToClipboard = () => {
-    // Implement the logic to copy API key to clipboard
-    // For example, you can use document.execCommand('copy') or Clipboard API
-  };
+    const apiKey = "sk-UwbDMYvgazyrQ0N9MAN7I8X8Vyjl9RzDqTNGnqLabyBZCPip";
 
-  const copied = false; // You need to implement the copied state logic based on the copy operation result
+    try {
+      const textarea = document.createElement("textarea");
+      textarea.value = apiKey;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+
+      // Copy operation successful, update the copied state
+      setCopied(true);
+    } catch (error) {
+      // Handle copy operation failure here if needed
+      console.error("Failed to copy API key:", error);
+    }
+  };
 
   return (
     <div className="h-full flex flex-col items-center justify-center bg-zinc-900 px-5 py-6">
@@ -76,7 +89,10 @@ export function Settings() {
           setSetting={setSetting as never}
         />
         <div className="flex flex-col items-center mt-8">
-          <button onClick={copyApiKeyToClipboard} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            onClick={copyApiKeyToClipboard}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
             {copied ? "Copied!" : "Copy API Key"}
           </button>
           <Link to="/generate" className="mt-4 w-fit">

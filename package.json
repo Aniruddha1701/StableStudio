@@ -32,5 +32,8 @@
       "prettier --write",
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "vite": "latest"
   }
 }
