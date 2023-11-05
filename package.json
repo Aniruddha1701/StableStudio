@@ -35,5 +35,11 @@
   },
   "dependencies": {
     "vite": "latest"
+  },
+  
+"husky": {
+  "hooks": {
+    "pre-push": "yarn type-check && lint-staged"
   }
+}
 }
