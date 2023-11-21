@@ -58,7 +58,7 @@ export function Settings() {
   );
 
   const copyApiKeyToClipboard = () => {
-    const apiKey = "sk-UwbDMYvgazyrQ0N9MAN7I8X8Vyjl9RzDqTNGnqLabyBZCPip";
+    const apiKey = "sk-UDzeCWNPXNUyxkQ8g0iRzFZcDFd1537dPuXnvsT88qjYo6hf";
 
     try {
       const textarea = document.createElement("textarea");
